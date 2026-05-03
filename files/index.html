@@ -11,7 +11,7 @@
 <meta name="apple-mobile-web-app-title" content="記帳">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#c9a96e">
-<meta name="description" content="個人財務管理 · ABC 帳戶 · AI 分析">
+<meta name="description" content="個人財務管理 · ABC 帳戶 · 退休試算">
 
 <!-- PWA Icons -->
 <link rel="manifest" href="manifest.json">
@@ -454,110 +454,7 @@ input[type=range].ratio-slider.c { accent-color: #6bbd8a; }
 .exp-del:hover { color: var(--red); }
 
 /* AI Chat */
-.ai-chat {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-.chat-header {
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.chat-avatar {
-  width: 32px;
-  height: 32px;
-  background: var(--accent-dim);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-}
-.chat-title { font-size: 13px; font-weight: 600; color: var(--accent); }
-.chat-sub { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); }
-
-.chat-messages {
-  padding: 16px;
-  min-height: 200px;
-  max-height: 400px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.msg {
-  max-width: 85%;
-  padding: 10px 14px;
-  border-radius: 12px;
-  font-size: 13px;
-  line-height: 1.6;
-  animation: fadeIn 0.3s ease;
-}
-.msg.ai {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  color: var(--text);
-  align-self: flex-start;
-  border-radius: 4px 12px 12px 12px;
-}
-.msg.user {
-  background: var(--accent-dim);
-  border: 1px solid rgba(201,169,110,0.2);
-  color: var(--accent);
-  align-self: flex-end;
-  border-radius: 12px 4px 12px 12px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-}
-.msg.loading {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  color: var(--muted);
-  align-self: flex-start;
-}
-.typing { display: flex; gap: 4px; align-items: center; }
-.dot { width: 6px; height: 6px; background: var(--muted); border-radius: 50%; animation: pulse 1.4s infinite; }
-.dot:nth-child(2) { animation-delay: 0.2s; }
-.dot:nth-child(3) { animation-delay: 0.4s; }
-@keyframes pulse { 0%,60%,100%{opacity:0.3} 30%{opacity:1} }
-
-.chat-input-wrap {
-  padding: 12px 16px;
-  border-top: 1px solid var(--border);
-  display: flex;
-  gap: 8px;
-}
-.chat-input {
-  flex: 1;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 10px 12px;
-  font-family: 'Noto Serif TC', serif;
-  font-size: 13px;
-  color: var(--text);
-  outline: none;
-  resize: none;
-  height: 40px;
-}
-.chat-input:focus { border-color: var(--accent); }
-.btn-send {
-  background: var(--accent);
-  color: #0a0a0b;
-  border: none;
-  border-radius: 10px;
-  padding: 10px 14px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: opacity 0.2s;
-}
-.btn-send:hover { opacity: 0.8; }
-.btn-send:disabled { opacity: 0.4; cursor: not-allowed; }
+/* Quick prompts - kept for potential future use */
 
 /* Quick prompts */
 .quick-prompts {
@@ -690,7 +587,6 @@ input[type=range].ratio-slider.c { accent-color: #6bbd8a; }
 <div class="tabs">
   <div class="tab active" onclick="switchTab('overview')">總覽</div>
   <div class="tab" onclick="switchTab('add')">記帳</div>
-  <div class="tab" onclick="switchTab('ai')">AI 分析</div>
   <div class="tab" onclick="switchTab('plan')">退休計劃</div>
 </div>
 
@@ -704,14 +600,14 @@ input[type=range].ratio-slider.c { accent-color: #6bbd8a; }
         <div style="font-family:'Nunito',sans-serif;font-size:10px;letter-spacing:2px;color:var(--accent);margin-bottom:6px;">你的名字</div>
         <input id="nameInput" type="text" maxlength="6"
           style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-family:'Noto Serif TC',serif;font-size:15px;color:var(--text);outline:none;"
-          placeholder="竑陞"
+          placeholder="你的名字"
           onchange="saveName()" />
       </div>
       <div style="flex:2">
         <div style="font-family:'Nunito',sans-serif;font-size:10px;letter-spacing:2px;color:var(--accent);margin-bottom:6px;">月薪設定</div>
         <input id="salaryInput" type="text" inputmode="numeric"
           style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--accent);font-weight:600;outline:none;font-variant-numeric:tabular-nums;"
-          placeholder="72,000"
+          placeholder="月薪金額"
           onkeydown="if(event.key==='Enter') updateSalary()" />
       </div>
       <button id="salaryBtn" onclick="updateSalary()"
@@ -865,7 +761,7 @@ input[type=range].ratio-slider.c { accent-color: #6bbd8a; }
   <div class="sec-title">新增消費</div>
   <div class="add-form">
     <div class="form-row">
-      <input class="form-input" id="expName" placeholder="消費說明（如：Louisa 咖啡）" />
+      <input class="form-input" id="expName" placeholder="消費說明（如：早餐、咖啡）" />
     </div>
     <div class="form-row">
       <input class="form-input" id="expAmount" type="number" placeholder="金額" style="flex:1" />
@@ -904,35 +800,6 @@ input[type=range].ratio-slider.c { accent-color: #6bbd8a; }
 </div>
 
 <!-- AI PAGE -->
-<div id="page-ai" class="page">
-  <div class="sec-title">AI 財務顧問</div>
-  <div class="ai-chat">
-    <div class="chat-header">
-      <div class="chat-avatar">🤖</div>
-      <div>
-        <div class="chat-title">Claude · 財務分析</div>
-        <div class="chat-sub">基於你的實際消費數據</div>
-      </div>
-    </div>
-    <div class="chat-messages" id="chatMessages">
-      <div class="msg ai">你好竑陞！我是你的 AI 財務顧問。我了解你的財務狀況：月薪 72,000、海外資產約 3,565 萬、目標 40 歲退休台北定居。
-
-請問你今天想分析什麼？💰</div>
-    </div>
-    <div class="quick-prompts">
-      <div class="qp" onclick="quickPrompt('分析我本月消費，有沒有超支？')">本月消費分析</div>
-      <div class="qp" onclick="quickPrompt('我什麼時候可以退休？')">退休時間預測</div>
-      <div class="qp" onclick="quickPrompt('NVDA 要不要減倉換成 VOO？')">投資建議</div>
-      <div class="qp" onclick="quickPrompt('我的 Coupang 花太多了嗎？')">消費診斷</div>
-      <div class="qp" onclick="quickPrompt('幫我做本月財務健診')">財務健診</div>
-    </div>
-    <div class="chat-input-wrap">
-      <textarea class="chat-input" id="chatInput" placeholder="問我任何財務問題..." onkeydown="handleKey(event)"></textarea>
-      <button class="btn-send" id="sendBtn" onclick="sendMessage()">➤</button>
-    </div>
-  </div>
-</div>
-
 <!-- PLAN PAGE -->
 <div id="page-plan" class="page">
   <div class="sec-title">退休計劃試算</div>
@@ -945,13 +812,13 @@ input[type=range].ratio-slider.c { accent-color: #6bbd8a; }
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
       <div>
         <div style="font-family:'Nunito',sans-serif;font-size:10px;color:var(--muted);margin-bottom:6px;">出生年份</div>
-        <input id="birthYear" type="number" inputmode="numeric" min="1960" max="2005" placeholder="1991"
+        <input id="birthYear" type="number" inputmode="numeric" min="1960" max="2005" placeholder="例：1990"
           style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--text);outline:none;font-variant-numeric:tabular-nums;"
           oninput="calcRetire()" />
       </div>
       <div>
         <div style="font-family:'Nunito',sans-serif;font-size:10px;color:var(--muted);margin-bottom:6px;">目標退休年齡</div>
-        <input id="retireAge" type="number" inputmode="numeric" min="35" max="70" placeholder="40"
+        <input id="retireAge" type="number" inputmode="numeric" min="35" max="70" placeholder="例：55"
           style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--text);outline:none;font-variant-numeric:tabular-nums;"
           oninput="calcRetire()" />
       </div>
@@ -969,13 +836,13 @@ input[type=range].ratio-slider.c { accent-color: #6bbd8a; }
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
       <div>
         <div style="font-family:'Nunito',sans-serif;font-size:10px;color:var(--muted);margin-bottom:6px;">退休後月生活費（元）</div>
-        <input id="monthlyLiving" type="number" inputmode="numeric" min="0" placeholder="40000"
+        <input id="monthlyLiving" type="number" inputmode="numeric" min="0" placeholder="例：30000"
           style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--text);outline:none;font-variant-numeric:tabular-nums;"
           oninput="calcRetire()" />
       </div>
       <div>
         <div style="font-family:'Nunito',sans-serif;font-size:10px;color:var(--muted);margin-bottom:6px;">年旅遊預算（元）</div>
-        <input id="yearlyTravel" type="number" inputmode="numeric" min="0" placeholder="350000"
+        <input id="yearlyTravel" type="number" inputmode="numeric" min="0" placeholder="例：100000"
           style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--text);outline:none;font-variant-numeric:tabular-nums;"
           oninput="calcRetire()" />
       </div>
@@ -1073,9 +940,6 @@ input[type=range].ratio-slider.c { accent-color: #6bbd8a; }
   <button class="bot-btn" id="btn-add" onclick="switchTab('add')">
     <span class="bot-icon">＋</span>記帳
   </button>
-  <button class="bot-btn" id="btn-ai" onclick="switchTab('ai')">
-    <span class="bot-icon">🤖</span>AI
-  </button>
   <button class="bot-btn" id="btn-plan" onclick="switchTab('plan')">
     <span class="bot-icon">🎯</span>計劃
   </button>
@@ -1086,7 +950,7 @@ input[type=range].ratio-slider.c { accent-color: #6bbd8a; }
 let expenses = [];
 let currentMonth = '2026-05';
 let filterCategory = 'all';
-let salary = 72000;
+let salary = 0;
 
 // ============ 比例（可拖拉調整）============
 let RATIOS = { A: 0.55, B: 0.13, C: 0.32 };
@@ -1146,7 +1010,7 @@ async function loadData() {
     if (result) {
       const data = JSON.parse(result.value);
       expenses = data.expenses || [];
-      salary = data.salary || 72000;
+      salary = data.salary || 0;
       if (data.ratios) RATIOS = data.ratios;
     }
   } catch(e) {
@@ -1155,12 +1019,13 @@ async function loadData() {
       if (local) {
         const data = JSON.parse(local);
         expenses = data.expenses || [];
-        salary = data.salary || 72000;
+        salary = data.salary || 0;
         if (data.ratios) RATIOS = data.ratios;
       }
     } catch(e2) {}
   }
-  document.getElementById('salaryInput').value = salary.toLocaleString();
+  // 只在有儲存值時顯示，否則留空
+  if (salary > 0) document.getElementById('salaryInput').value = salary.toLocaleString();
   // Load saved name
   const savedName = localStorage.getItem('user_name');
   if (savedName) {
@@ -1188,7 +1053,7 @@ function switchTab(tab) {
   document.getElementById('page-' + tab).classList.add('active');
   document.getElementById('btn-' + tab).classList.add('active');
 
-  const tabs = ['overview','add','ai','plan'];
+  const tabs = ['overview','add','plan'];
   const idx = tabs.indexOf(tab);
   document.querySelectorAll('.tab')[idx]?.classList.add('active');
 
@@ -1253,23 +1118,23 @@ function renderAll() {
   const remaining = Math.max(0, BUDGET.A - total);
 
   // Update salary display
-  document.getElementById('salaryDisplay').textContent = salary.toLocaleString();
-  document.getElementById('investDisplay').textContent = BUDGET.C.toLocaleString();
-  document.getElementById('investSub').textContent = `月薪 ${(RATIOS.C*100).toFixed(0)}% · 0050 定期定額`;
+  document.getElementById('salaryDisplay').textContent = salary > 0 ? salary.toLocaleString() : '—';
+  document.getElementById('investDisplay').textContent = salary > 0 ? BUDGET.C.toLocaleString() : '—';
+  document.getElementById('investSub').textContent = salary > 0 ? `月薪 ${(RATIOS.C*100).toFixed(0)}% · 0050 定期定額` : '請先設定月薪';
   updateSliderDisplay();
 
   document.getElementById('totalSpent').textContent = total.toLocaleString();
-  document.getElementById('spentSub').textContent = `A 帳戶上限 ${BUDGET.A.toLocaleString()}`;
-  document.getElementById('remaining').textContent = remaining.toLocaleString();
+  document.getElementById('spentSub').textContent = salary > 0 ? `A 帳戶上限 ${BUDGET.A.toLocaleString()}` : '請先設定月薪';
+  document.getElementById('remaining').textContent = salary > 0 ? remaining.toLocaleString() : '—';
 
-  const pct = Math.min(100, (total / BUDGET.A) * 100);
+  const pct = BUDGET.A > 0 ? Math.min(100, (total / BUDGET.A) * 100) : 0;
   const bar = document.getElementById('aBar');
   bar.style.width = pct + '%';
   bar.className = 'bar-fill a' + (pct >= 100 ? ' over' : '');
   document.getElementById('aSpent').textContent = total.toLocaleString();
-  document.getElementById('aLimit').textContent = BUDGET.A.toLocaleString();
-  document.getElementById('bAmt').textContent = BUDGET.B.toLocaleString();
-  document.getElementById('cAmt').textContent = BUDGET.C.toLocaleString();
+  document.getElementById('aLimit').textContent = salary > 0 ? BUDGET.A.toLocaleString() : '—';
+  document.getElementById('bAmt').textContent = salary > 0 ? BUDGET.B.toLocaleString() : '—';
+  document.getElementById('cAmt').textContent = salary > 0 ? BUDGET.C.toLocaleString() : '—';
 
   renderCatSummary(monthExp, CAT_BUDGETS);
   renderRecent(monthExp);
@@ -1396,9 +1261,7 @@ function updateSalary() {
 
 // ============ 退休計劃動態渲染 ============
 function renderPlanPage(BUDGET, CAT_BUDGETS) {
-  const retireNeeded = 3433; // 萬，103萬/年 ÷ 3%
-  const currentAsset = 3565; // 萬
-  const gap = currentAsset - retireNeeded;
+  // 退休需求和資產從用戶輸入取得，不使用硬編碼數值
   const monthly40 = Math.round(BUDGET.C * 60 * 1.07 / 1000) * 1000; // 粗估5年後
 
   const planEl = document.getElementById('planBudgetRows');
@@ -1644,97 +1507,6 @@ function fmtM(val) {
 }
 function fmt(val) {
   return Math.round(val).toLocaleString();
-}
-
-// ============ AI CHAT ============
-async function sendMessage() {
-  const input = document.getElementById('chatInput');
-  const msg = input.value.trim();
-  if (!msg) return;
-
-  input.value = '';
-  addChatMsg(msg, 'user');
-
-  const loadingId = addChatMsg('<div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>', 'loading');
-
-  document.getElementById('sendBtn').disabled = true;
-
-  const monthExp = getMonthExpenses();
-  const total = monthExp.reduce((s,e) => s + e.amount, 0);
-  const cats = {};
-  monthExp.forEach(e => { if(!cats[e.cat]) cats[e.cat]=0; cats[e.cat]+=e.amount; });
-
-  const context = `
-你是竑陞的私人財務顧問，用繁體中文回答，語氣親切但專業。
-以下是竑陞的財務狀況：
-- 1991年生，35歲，在員林工作
-- 月薪 72,000 新台幣
-- ABC帳戶：A日常39,600 / B年度9,400 / C投資23,000
-- 海外資產約3,565萬台幣（美股+日股+美金定存）
-- 主要持股：NVDA(+947%)、GOOGL(+219%)、AAPL、AMZN、MSFT、TSLA，以及日本商社股
-- 台灣定期定額0050，每月23,000
-- 目標40歲退休，住台北，每年生活費約103萬
-- 訂閱：Claude Max($100/月)、Variable Visualizer($12/月)
-
-本月消費紀錄（${currentMonth}）：
-- 總支出：${total.toLocaleString()} 元（A帳戶上限39,600）
-- 消費分類：${JSON.stringify(cats)}
-- 明細：${JSON.stringify(monthExp.slice(0,20))}
-
-回答要簡潔，重點清楚，適合手機閱讀。
-  `;
-
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: context,
-        messages: [{ role: 'user', content: msg }]
-      })
-    });
-
-    const data = await res.json();
-    const reply = data.content?.[0]?.text || '抱歉，請稍後再試。';
-    removeMsg(loadingId);
-    addChatMsg(reply, 'ai');
-  } catch(e) {
-    removeMsg(loadingId);
-    addChatMsg('連線異常，請稍後再試。', 'ai');
-  }
-
-  document.getElementById('sendBtn').disabled = false;
-}
-
-function quickPrompt(text) {
-  document.getElementById('chatInput').value = text;
-  sendMessage();
-}
-
-function handleKey(e) {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    sendMessage();
-  }
-}
-
-let msgId = 0;
-function addChatMsg(text, type) {
-  const id = ++msgId;
-  const el = document.getElementById('chatMessages');
-  const div = document.createElement('div');
-  div.className = 'msg ' + type;
-  div.id = 'msg-' + id;
-  div.innerHTML = text;
-  el.appendChild(div);
-  el.scrollTop = el.scrollHeight;
-  return id;
-}
-
-function removeMsg(id) {
-  document.getElementById('msg-' + id)?.remove();
 }
 </script>
 
